@@ -1,4 +1,4 @@
-# weather-app
+# Covid=19 Tracker App
 
 ## Project setup
 ```

@@ -4,12 +4,15 @@
     <br />
     <div class="row">
       <div class="col s12 m8 l9">
-        <select >
-          <option value="12">sd</option>
-          <option value="12">sd</option>
-          <option value="12">sd</option>
+        <select v-on:change="getCountry">
+          <option value="worldwide">world wide</option>
+          
+          
 
         </select>
+        <div v-bind:key="country.id" v-for="country in this.countries">
+            <h3 value="dffd">{{country.name}}</h3>
+          </div>
         <div class="row">
           <Card />
           <Card />
@@ -52,13 +55,37 @@ export default {
     Card,
     MapImage
   },
+  methods:{
+    getCountry(){
+      
+    }
+  },
   mounted() {
     const elems = document.querySelectorAll('select');
     M.FormSelect.init(elems, {});
   },
+  async created(){
+    const apiCall = await fetch('https://www.disease.sh/v3/covid-19/countries');
+    const result = await apiCall.json();
+
+    const countries = result.map( country => {
+      return {
+        name: country.country,
+        id: country.countryInfo._id,
+        value: country.countryInfo.iso2,
+        cases: country.cases,
+      }
+    });
+    this.countries = countries;
+    
+  
+  },
   data() {
     return {
-      api_key: ""
+      countries: [],
+      country: "worldwide",
+      countryInfo: {},
+      tableData: [],
     };
   }
 };

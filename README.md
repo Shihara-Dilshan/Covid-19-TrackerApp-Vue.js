@@ -1,5 +1,5 @@
 # Covid-19 Tracker App
-
+Production build : https://covid19trackervue.netlify.app/
 ## Project setup
 ```
 npm install

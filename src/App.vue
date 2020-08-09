@@ -24,13 +24,9 @@
         <h5 class="center">Live cases</h5>
         <table class="striped">
           <tbody>
-            <tr>
-              <td class="center center-align">eer</td>
-              <td class="center center-align">sd</td>
-            </tr>
-            <tr>
-              <td class="center center-align">eer</td>
-              <td class="center center-align">sd</td>
+            <tr v-bind:key="data.name" v-for="data in tableData">
+              <td class="center center-align">{{data.name}}</td>
+              <td class="center center-align">{{data.cases}}</td>
             </tr>
           </tbody>
         </table>
@@ -67,11 +63,12 @@ export default {
         this.countryInfo = wolrdWideResult;
       } else {
         const countryCode = e.target.value;
-        const country = await fetch(`https://disease.sh/v3/covid-19/countries/${countryCode}`);
+        const country = await fetch(
+          `https://disease.sh/v3/covid-19/countries/${countryCode}`
+        );
         const countryResult = await country.json();
         this.countryInfo = countryResult;
       }
-      
     }
   },
   mounted() {
@@ -85,6 +82,13 @@ export default {
     const worldWide = await fetch("https://www.disease.sh/v3/covid-19/all");
     const wolrdWideResult = await worldWide.json();
 
+    const tableInfo = result.map(country => {
+      return {
+        name: country.country,
+        cases: country.cases
+      };
+    });
+
     const countries = result.map(country => {
       return {
         name: country.country,
@@ -95,6 +99,15 @@ export default {
     });
     this.countries = countries;
     this.countryInfo = wolrdWideResult;
+    this.tableData = tableInfo
+      .sort((a, b) => {
+        if (a.cases > b.cases) {
+          return -1;
+        } else {
+          return 1;
+        }
+      })
+      .slice(0, 17);
 
     const elems = await document.querySelectorAll("select");
     await M.FormSelect.init(elems, {});

@@ -6,17 +6,17 @@
       <div class="col s12 m8 l9">
         <select v-on:change="getCountry">
           <option value="worldwide">world wide</option>
-          
-          
-
+          <option
+            v-bind:value="country.value"
+            v-bind:key="country.id"
+            v-for="country in countries"
+          >{{country.name}}</option>
         </select>
-        <div v-bind:key="country.id" v-for="country in this.countries">
-            <h3 value="dffd">{{country.name}}</h3>
-          </div>
         <div class="row">
-          <Card />
-          <Card />
-          <Card />
+          <Card v-bind:info="countryInfo"/>
+          <Recorverd v-bind:info="countryInfo"/>
+          <Deaths v-bind:info="countryInfo"/>
+          <Card /> -->
         </div>
         <MapImage />
       </div>
@@ -44,48 +44,59 @@
 <script>
 import "materialize-css/dist/css/materialize.min.css";
 import Nevbar from "./Nevbar.vue";
-import Card from './Card.vue'
-import MapImage from './MapImage.vue'
-import M from 'materialize-css';
+import Card from "./Card.vue";
+import Recorverd from './Recorverd.vue';
+import Deaths from './Deaths.vue'
+import MapImage from "./MapImage.vue";
+
+import M from "materialize-css";
 
 export default {
   name: "App",
   components: {
     Nevbar,
     Card,
+    Recorverd,
+    Deaths,
     MapImage
   },
-  methods:{
-    getCountry(){
-      
+  methods: {
+    getCountry(e) {
+      console.log(e.target.value);
     }
   },
   mounted() {
-    const elems = document.querySelectorAll('select');
+    const elems = document.querySelectorAll("select");
     M.FormSelect.init(elems, {});
   },
-  async created(){
-    const apiCall = await fetch('https://www.disease.sh/v3/covid-19/countries');
+  async created() {
+    const apiCall = await fetch("https://www.disease.sh/v3/covid-19/countries");
     const result = await apiCall.json();
 
-    const countries = result.map( country => {
+    const worldWide = await fetch('https://www.disease.sh/v3/covid-19/all');
+    const wolrdWideResult = await worldWide.json();
+
+
+    const countries = result.map(country => {
       return {
         name: country.country,
         id: country.countryInfo._id,
         value: country.countryInfo.iso2,
-        cases: country.cases,
-      }
+        cases: country.cases
+      };
     });
     this.countries = countries;
-    
-  
+    this.countryInfo = wolrdWideResult;
+
+    const elems = await document.querySelectorAll("select");
+    await M.FormSelect.init(elems, {});
   },
   data() {
     return {
       countries: [],
       country: "worldwide",
       countryInfo: {},
-      tableData: [],
+      tableData: []
     };
   }
 };

@@ -1,10 +1,10 @@
 <template>
     <div class="col s12 m4 center">
       <div class="card-panel">
-        <i class="material-icons large teal-text">all_inclusive</i>
-        <h5>Corona cases</h5>
-        <h5>+{{info.todayCases}}</h5>
-        <h6>{{info.cases}} Total</h6>
+        <i class="material-icons large teal-text">insert_emoticon</i>
+        <h5>Recovered</h5>
+        <h5>+{{info.todayRecovered}}</h5>
+        <h6>{{info.recovered}} Total</h6>
       </div>
     </div>
 </template>
@@ -13,7 +13,7 @@
 import "materialize-css/dist/css/materialize.min.css";
 
 export default {
-  name: "Card",
+  name: "Recorverd",
   props: ["info"]
 };
 </script>

@@ -3,7 +3,7 @@
       <div class="card-panel">
         <i class="material-icons large teal-text">fitness_center</i>
         <h5>Deaths</h5>
-        <h5>+{{info.todayDeaths}}</h5>
+        <h5 class="red-text">+{{info.todayDeaths}}</h5>
         <h6>{{info.deaths}} Total</h6>
       </div>
     </div>

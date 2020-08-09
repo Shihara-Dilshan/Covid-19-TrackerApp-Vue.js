@@ -3,7 +3,7 @@
       <div class="card-panel">
         <i class="material-icons large teal-text">insert_emoticon</i>
         <h5>Recovered</h5>
-        <h5>+{{info.todayRecovered}}</h5>
+        <h5 class="red-text">+{{info.todayRecovered}}</h5>
         <h6>{{info.recovered}} Total</h6>
       </div>
     </div>

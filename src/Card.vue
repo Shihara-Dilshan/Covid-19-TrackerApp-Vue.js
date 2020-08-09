@@ -3,7 +3,7 @@
       <div class="card-panel">
         <i class="material-icons large teal-text">all_inclusive</i>
         <h5>Corona cases</h5>
-        <h5>+{{info.todayCases}}</h5>
+        <h5 class="red-text">+{{info.todayCases}}</h5>
         <h6>{{info.cases}} Total</h6>
       </div>
     </div>

@@ -13,10 +13,9 @@
           >{{country.name}}</option>
         </select>
         <div class="row">
-          <Card v-bind:info="countryInfo"/>
-          <Recorverd v-bind:info="countryInfo"/>
-          <Deaths v-bind:info="countryInfo"/>
-          <Card /> -->
+          <Card v-bind:info="countryInfo" />
+          <Recorverd v-bind:info="countryInfo" />
+          <Deaths v-bind:info="countryInfo" />
         </div>
         <MapImage />
       </div>
@@ -45,8 +44,8 @@
 import "materialize-css/dist/css/materialize.min.css";
 import Nevbar from "./Nevbar.vue";
 import Card from "./Card.vue";
-import Recorverd from './Recorverd.vue';
-import Deaths from './Deaths.vue'
+import Recorverd from "./Recorverd.vue";
+import Deaths from "./Deaths.vue";
 import MapImage from "./MapImage.vue";
 
 import M from "materialize-css";
@@ -61,8 +60,18 @@ export default {
     MapImage
   },
   methods: {
-    getCountry(e) {
-      console.log(e.target.value);
+    async getCountry(e) {
+      if (e.target.value === "worldwide") {
+        const worldWide = await fetch("https://www.disease.sh/v3/covid-19/all");
+        const wolrdWideResult = await worldWide.json();
+        this.countryInfo = wolrdWideResult;
+      } else {
+        const countryCode = e.target.value;
+        const country = await fetch(`https://disease.sh/v3/covid-19/countries/${countryCode}`);
+        const countryResult = await country.json();
+        this.countryInfo = countryResult;
+      }
+      
     }
   },
   mounted() {
@@ -73,9 +82,8 @@ export default {
     const apiCall = await fetch("https://www.disease.sh/v3/covid-19/countries");
     const result = await apiCall.json();
 
-    const worldWide = await fetch('https://www.disease.sh/v3/covid-19/all');
+    const worldWide = await fetch("https://www.disease.sh/v3/covid-19/all");
     const wolrdWideResult = await worldWide.json();
-
 
     const countries = result.map(country => {
       return {
